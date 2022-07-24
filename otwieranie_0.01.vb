@@ -1,5 +1,3 @@
-
-
 Dim openDoc As AssemblyDocument
 openDoc = ThisDoc.Document
 Dim oDoc As Document
@@ -10,7 +8,7 @@ ThisApplication.ActiveDocument.ComponentDefinition.BOM.StructuredViewEnabled = T
 ThisApplication.ActiveDocument.ComponentDefinition.BOM.PartsOnlyViewEnabled = True
 count = openDoc.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Count
 
-For item As Integer = 1 To count ' -----------------Głowny FOR
+For item As Integer = 1 To count ' ----------------- Main FOR
 	On Error Resume Next
 	
 	
@@ -26,10 +24,14 @@ For item As Integer = 1 To count ' -----------------Głowny FOR
 		oPart = ThisApplication.Documents.Open(fullName, True)
 		counter =counter +1
 		
+		
+		
 		ThisApplication.ActiveDocument.ComponentDefinition.BOM.StructuredViewEnabled = True
 		ThisApplication.ActiveDocument.ComponentDefinition.BOM.PartsOnlyViewEnabled = True
 		newCount = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Count
-		For newItem As Integer = 1 To newCount ' ---------------PodFOR 
+		For newItem As Integer = 1 To newCount ' ---------------[0] FOR 
+		
+			MsgBox(newCount)	
 			On Error Resume Next
 			newFullName=ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem).ComponentDefinitions.Item(1).Document.FullDocumentName
 			newAssemblyType = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem).ComponentDefinitions.Item(1).Type
@@ -42,11 +44,15 @@ For item As Integer = 1 To count ' -----------------Głowny FOR
 				NewoPart = ThisApplication.Documents.Open(newFullName, True)
 				counter =counter +1
 				
+				
+				
 				ThisApplication.ActiveDocument.ComponentDefinition.BOM.StructuredViewEnabled = True
 				ThisApplication.ActiveDocument.ComponentDefinition.BOM.PartsOnlyViewEnabled = True
 				newCount1 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Count
 			
-				For newItem1 As Integer = 1 To newCount1 ' ----------------Pierwszy kopiowany FOR
+				For newItem1 As Integer = 1 To newCount1 ' ----------------[1] FOR
+				
+					MsgBox(newCount1)	
 					On Error Resume Next
 					newFullName1=ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem1).ComponentDefinitions.Item(1).Document.FullDocumentName
 					newAssemblyType1 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem1).ComponentDefinitions.Item(1).Type
