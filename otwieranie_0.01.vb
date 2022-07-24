@@ -10,7 +10,13 @@ count = openDoc.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Count
 For item As Integer = 1 To count ' ----------------- Main FOR
 	On Error Resume Next
 	
-	MsgBox(count)
+	'MsgBox(count)
+	
+	
+	pathMap = openDoc.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(item).ComponentDefinitions.Item(1).Document.DisplayName
+
+	MsgBox(pathMap)
+	
 	
 	fullName=openDoc.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(item).ComponentDefinitions.Item(1).Document.FullDocumentName
 	assemblyType = openDoc.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(item).ComponentDefinitions.Item(1).Type
@@ -18,7 +24,7 @@ For item As Integer = 1 To count ' ----------------- Main FOR
 	
 	if assemblyType <>	kAssemblyComponentDefinitionObject Then 
 		
-		
+		'ThisApplication.ActiveDocument.Close(True)
 		Exit For
 	
 	Else if assemblyType = kAssemblyComponentDefinitionObject
@@ -34,7 +40,11 @@ For item As Integer = 1 To count ' ----------------- Main FOR
 		
 			
 			On Error Resume Next
-			MsgBox(newCount)	
+			'MsgBox(newCount)
+			pathMap0 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem).ComponentDefinitions.Item(1).Document.DisplayName
+
+			MsgBox(pathMap0)
+			
 			newFullName=ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem).ComponentDefinitions.Item(1).Document.FullDocumentName
 			newAssemblyType = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem).ComponentDefinitions.Item(1).Type
 			Dim NewoPart As AssemblyDocument
@@ -57,6 +67,11 @@ For item As Integer = 1 To count ' ----------------- Main FOR
 						
 					On Error Resume Next
 					'MsgBox(newCount1)
+					
+					pathMap1 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem).ComponentDefinitions.Item(1).Document.DisplayName
+
+					MsgBox(pathMap1)
+					
 					newFullName1=ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem1).ComponentDefinitions.Item(1).Document.FullDocumentName
 					newAssemblyType1 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem1).ComponentDefinitions.Item(1).Type
 					Dim NewoPart1 As AssemblyDocument
@@ -76,6 +91,10 @@ For item As Integer = 1 To count ' ----------------- Main FOR
 							
 							On Error Resume Next
 							'MsgBox(newCount2)
+							
+							pathMap2 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem).ComponentDefinitions.Item(1).Document.DisplayName
+
+							MsgBox(pathMap2)
 							newFullName2=ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem2).ComponentDefinitions.Item(1).Document.FullDocumentName
 							newAssemblyType2 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem2).ComponentDefinitions.Item(1).Type
 							Dim NewoPart2 As AssemblyDocument
@@ -102,9 +121,9 @@ For item As Integer = 1 To count ' ----------------- Main FOR
 					End if
 				Next
 			Else if newAssemblyType <>	kAssemblyComponentDefinitionObject Then 
-				
+				ThisApplication.ActiveDocument.Close(True)
 				Exit For
-				oPart.Close
+				
 			End if
 		Next
 			
