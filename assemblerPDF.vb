@@ -3,6 +3,7 @@ Imports System.Text
 
 Sub Main()
 
+'----------------------------Your custom message
 
 Result = MessageBox.Show("Aby Macro poprawnie zadziałało:" & vbNewLine & vbNewLine &
 "- rysunki muszą się znajodwać w lokalizacji o końcówce _RYSUNKI\WYKONAWCZE\" & vbNewLine &
@@ -10,6 +11,7 @@ Result = MessageBox.Show("Aby Macro poprawnie zadziałało:" & vbNewLine & vbNew
 "- macro trzeba odpalić z poziomu głównego złożenia" & vbNewLine &
 "- macro generuje PDFy zgodnie z kolejnościa jaka jest w BOMie Structural","assemblerPDF",MessageBoxButtons.OKCancel,MessageBoxIcon.Information)
 
+'----------------------------
 
 If Result =1
 
@@ -17,11 +19,7 @@ Dim openDoc As AssemblyDocument
 openDoc = ThisDoc.Document
 Dim oDoc As Document = ThisApplication.ActiveDocument
 Dim oDocNameMain As String = oDoc.FullFileName
-
 Dim mainPath As String = Split(oDocNameMain, oDoc.DisplayName)(0)
-
-
-
 
 ThisApplication.ActiveDocument.ComponentDefinition.BOM.StructuredViewEnabled = True
 ThisApplication.ActiveDocument.ComponentDefinition.BOM.PartsOnlyViewEnabled = True
@@ -29,7 +27,6 @@ Dim count As Integer = openDoc.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.
 
 Dim counter As Integer = 1
 
-'MsgBox(counter & "- Glowne zlozenie")
 
 creatingPDF(counter, mainPath)
 
@@ -37,28 +34,27 @@ firstLoop(openDoc, oDoc, count, counter, mainPath)
 
 Else
 End If
+
+
+Exit Sub
 End Sub
 
 
-'-------------------------------------------------------------------------- pierwsza petla -----------------------------------------------------------------
+'-------------------------------------------------------------------------- first loop -----------------------------------------------------------------
 
 
 Function firstLoop (openDoc As AssemblyDocument, oDoc As Document, count As Integer, counter As Integer, mainPath As String)
 
-Dim check as Integer = 0
-Dim breaker As Integer = 0
+
+
 
 For item As Integer = 1 To count 
 	On Error Resume Next
 
 	counter= counter + 10
 	
-	check=check+1
-	pathMap = openDoc.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(item).ComponentDefinitions.Item(1).Document.DisplayName
+	
 
-	'MsgBox(counter &  "- Zlozenie I poz."& " Ilosc " & item & " Z : "& count)
-	'MsgBox(pathMap)
-		
 	fullName=openDoc.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(item).ComponentDefinitions.Item(1).Document.FullDocumentName
 	assemblyType = openDoc.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(item).ComponentDefinitions.Item(1).Type
 	bomStructure=openDoc.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(item).BOMStructure
@@ -68,9 +64,9 @@ For item As Integer = 1 To count
 	if assemblyType <>	kAssemblyComponentDefinitionObject Or bomStructure <> kNormalBOMStructure  Then 
 			
 		'ThisApplication.ActiveDocument.Close(True)
-		braker=1
+		
 		counter = counter - 10
-		'MsgBox("Wyjscie: to nie jest złożenie")
+		
 		Continue For
 		
 	Else if assemblyType = kAssemblyComponentDefinitionObject
@@ -86,27 +82,18 @@ For item As Integer = 1 To count
 	End if
 Next
 
-'MsgBox(check &" : " & count)
-
-'If check = count And breaker=0
-
-'ThisApplication.ActiveDocument.Close(True)
-'MsgBox("Koniec elementów")
-
-'End if
 
 return counter
 
 End Function
 
 
-'-------------------------------------------------------------------------- druga petla -----------------------------------------------------------------
+'-------------------------------------------------------------------------- Second loop -----------------------------------------------------------------
 
 
 Function secondLoop (newCount, counter, mainPath)
 
-Dim newCheck as Integer = 0
-Dim NewBreaker As Integer = 0
+
 
 For newItem As Integer = 1 To newCount 
 			
@@ -114,13 +101,10 @@ For newItem As Integer = 1 To newCount
 	
 	
 	
-	newCheck = newCheck+1
+	
 	
 	counter = counter + 10
 			
-	'pathMap0 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem).ComponentDefinitions.Item(1).Document.DisplayName
-
-	'MsgBox(counter & "- Zlozenie II poz."& " Ilosc " & newItem & " Z : "& newCount )
 			
 	newFullName=ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem).ComponentDefinitions.Item(1).Document.FullDocumentName
 	newBomStructure= ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newitem).BOMStructure
@@ -142,27 +126,21 @@ For newItem As Integer = 1 To newCount
 				
 	Else if newAssemblyType <>	kAssemblyComponentDefinitionObject Or newAssemblyType <> kNormalBOMStructure Then 
 		
-		NewBreaker = 1
+		
 		counter = counter - 10
 		'ThisApplication.ActiveDocument.Close(True)
 		
-		'MsgBox("Wyjscie: to nie jest złożenie")
+		
 		Continue For
 				
 			End if
 		Next
 		
 		
-		'MsgBox(newCheck &" : " & newCount)
-
-		'If newCheck = newCount And NewBreaker=0
+	
 
 			ThisApplication.ActiveDocument.Close(True)
-			'MsgBox("Koniec elementów")
 
-		'End if
-		
-		
 		return counter
 		
 End Function
@@ -171,7 +149,7 @@ End Function
 
 
 
-'-------------------------------------------------------------------------- funkcja tworząca PDF -----------------------------------------------------------------
+'-------------------------------------------------------------------------- PDF creation -----------------------------------------------------------------
 
 
 Function creatingPDF(counter, mainPath)
@@ -187,22 +165,29 @@ oDoc = ThisApplication.ActiveDocument
 	
 	Dim sFileName As String = Split(oDocName, oDocJustName)(0)
 	
-	'MsgBox(sFileName)
-	'MsgBox(mainPath)
-	
-	'If sFileName = mainPath
-	
-	'	MsgBox("Plik ma tą samą lokalizację")
-		
-	'Else	
-	
-	'	MsgBox("Pliki mają różne lokalizację")
-		
-	'End If
 	
 	Dim  displayNameCut As String = Split(oDocJustName, ".iam")(0)
 	
-	Dim sDrawingName As String = sFileName & "_RYSUNKI\WYKONAWCZE\" & displayNameCut & ".idw"
+	Dim sDrawingName As String = sFileName & "_RYSUNKI\WYKONAWCZE\" & displayNameCut & ".idw" '<------ drawing file path
+
+
+	Dim directionTry As String = sFileName & "_RYSUNKI\WYKONAWCZE"
+	
+	
+
+	Try 
+		If Not System.IO.Directory.Exists(directionTry) Then
+	
+		MessageBox.Show("Twój projekt nie posiada właściwej ścieżki do rysunków zgodnej z instrukcją PB 19 I 1"&
+		vbNewLine &vbNewLine &"Twoja ścieżka powinna wyglądać tak:" &
+		vbNewLine &vbNewLine &
+		sFileName & "_RYSUNKI\WYKONAWCZE\","assemblerPDF",MessageBoxButtons.OK,MessageBoxIcon.Exclamation)
+		
+		End If
+	Catch
+		
+	
+	End Try
 	
 Try	
 	If Not System.IO.File.Exists(sDrawingName) Then
@@ -212,6 +197,8 @@ Try
 		
 	End If
 Catch
+
+
 End Try	
 ThisApplication.Documents.Open(sDrawingName, True)
 
@@ -257,14 +244,14 @@ Function MakePDFFromDoc(docDrw, sFileName, counter, mainPath)
 
 	if  sFileName = mainPath Then
 
-  oDataMedium.FileName =  sFileName & "_RYSUNKI\WYKONAWCZE\" & newPDFname  & ".pdf"
+  oDataMedium.FileName =  sFileName & "_RYSUNKI\WYKONAWCZE\" & newPDFname  & ".pdf"'<------ pdf file path
 
 
   oPDFAddIn.SaveCopyAs(docDrw, oContext, oOptions, oDataMedium)
   
   Else
   
-  oDataMedium.FileName =  mainPath & "_RYSUNKI\WYKONAWCZE\" & newPDFname  & ".pdf"
+  oDataMedium.FileName =  mainPath & "_RYSUNKI\WYKONAWCZE\" & newPDFname  & ".pdf"'<------ pdf file path
 
 
 	oPDFAddIn.SaveCopyAs(docDrw, oContext, oOptions, oDataMedium)
@@ -273,12 +260,14 @@ Function MakePDFFromDoc(docDrw, sFileName, counter, mainPath)
   
 End Function
 
+'-------------------------------------------------------------------------- Error log -----------------------------------------------------------------
+
 Function errorLog (sDrawingName, mainPath, pdfCounter)
 
-Dim myDate As String = Now().ToString("yyyy-MM-dd HH.m.ss")
-myDate = myDate.Replace(":","")  
+'Dim myDate As String = Now().ToString("yyyy-MM-dd HH.m.ss")
+'myDate = myDate.Replace(":","")  
 
-Dim path As String = mainPath & "_RYSUNKI\WYKONAWCZE\" &"drwLog.txt"
+Dim path As String = mainPath & "_RYSUNKI\WYKONAWCZE\" &"drwLog.txt" '<------ error log file path
 
 Dim file As System.IO.StreamWriter
 file = My.Computer.FileSystem.OpenTextFileWriter(path, True)
@@ -287,6 +276,9 @@ file.WriteLine(pdfCounter & "." & sDrawingName)
 
 file.Close()
 End Function
+
+
+
 
 
 
