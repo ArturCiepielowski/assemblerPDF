@@ -375,9 +375,9 @@ oDoc = ThisApplication.ActiveDocument
 	
 Try	
 	If Not System.IO.File.Exists(sDrawingName) Then
-		'MsgBox("Nie ma rysunku")
+	
 		
-		errorLog (sDrawingName, sFileName)
+		errorLog (sDrawingName, mainPath, pdfCounter)
 		
 	End If
 Catch
@@ -442,17 +442,17 @@ Function MakePDFFromDoc(docDrw, sFileName, counter, mainPath)
   
 End Function
 
-Function errorLog (sDrawingName, sFileName)
+Function errorLog (sDrawingName, mainPath, pdfCounter)
 
 Dim myDate As String = Now().ToString("yyyy-MM-dd HH.m.ss")
 myDate = myDate.Replace(":","")  
 
-Dim path As String = sFileName & "_RYSUNKI\WYKONAWCZE\" &"drwLog.txt"
+Dim path As String = mainPath & "_RYSUNKI\WYKONAWCZE\" &"drwLog.txt"
 
 Dim file As System.IO.StreamWriter
 file = My.Computer.FileSystem.OpenTextFileWriter(path, True)
 	
-file.WriteLine(sDrawingName)
+file.WriteLine(pdfCounter & "." & sDrawingName)
 
 file.Close()
 End Function
