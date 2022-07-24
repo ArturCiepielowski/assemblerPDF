@@ -181,7 +181,7 @@ oDoc = ThisApplication.ActiveDocument
 		MessageBox.Show("Twój projekt nie posiada właściwej ścieżki do rysunków zgodnej z instrukcją PB 19 I 1"&
 		vbNewLine &vbNewLine &"Twoja ścieżka powinna wyglądać tak:" &
 		vbNewLine &vbNewLine &
-		sFileName & "_RYSUNKI\WYKONAWCZE\","assemblerPDF",MessageBoxButtons.OK,MessageBoxIcon.Exclamation)
+		sFileName & "_RYSUNKI\WYKONAWCZE","assemblerPDF",MessageBoxButtons.OK,MessageBoxIcon.Exclamation)
 		
 		End If
 	Catch
