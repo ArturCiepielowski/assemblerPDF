@@ -19,7 +19,7 @@ Dim count As Integer = openDoc.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.
 
 Dim counter As Integer = 1
 
-'MsgBox(counter & "- Glowne zlozenie")
+MsgBox(counter & "- Glowne zlozenie")
 
 creatingPDF(counter, mainPath)
 
@@ -39,13 +39,13 @@ Dim breaker As Integer = 0
 For item As Integer = 1 To count 
 	On Error Resume Next
 
-	counter= counter + 1
+	counter= counter + 10
 	
 	check=check+1
-	'pathMap = openDoc.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(item).ComponentDefinitions.Item(1).Document.DisplayName
+	pathMap = openDoc.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(item).ComponentDefinitions.Item(1).Document.DisplayName
 
-	'MsgBox(counter &  "- Zlozenie I poz."& " Ilosc " & item & " Z : "& count)
-		
+	MsgBox(counter &  "- Zlozenie I poz."& " Ilosc " & item & " Z : "& count)
+	MsgBox(pathMap)
 		
 	fullName=openDoc.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(item).ComponentDefinitions.Item(1).Document.FullDocumentName
 	assemblyType = openDoc.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(item).ComponentDefinitions.Item(1).Type
@@ -102,11 +102,11 @@ For newItem As Integer = 1 To newCount
 	
 	newCheck = newCheck+1
 	
-	counter = counter + 1
+	counter = counter + 10
 			
 	'pathMap0 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem).ComponentDefinitions.Item(1).Document.DisplayName
 
-	'MsgBox(counter & "- Zlozenie II poz."& " Ilosc " & newItem & " Z : "& newCount )
+	MsgBox(counter & "- Zlozenie II poz."& " Ilosc " & newItem & " Z : "& newCount )
 			
 	newFullName=ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem).ComponentDefinitions.Item(1).Document.FullDocumentName
 	newAssemblyType = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem).ComponentDefinitions.Item(1).Type
@@ -168,11 +168,11 @@ On Error Resume Next
 
 	newCheck1 = newCheck1+1
 	
-	counter= counter + 1	
+	counter= counter + 10	
 	
 	'pathMap1 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem).ComponentDefinitions.Item(1).Document.DisplayName
 
-	'MsgBox(counter & "- Zlozenie III poz."& " Ilosc " & newItem1 & " Z : "& newCount1)
+	MsgBox(counter & "- Zlozenie III poz."& " Ilosc " & newItem1 & " Z : "& newCount1)
 					
 	newFullName1=ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem1).ComponentDefinitions.Item(1).Document.FullDocumentName
 	newAssemblyType1 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem1).ComponentDefinitions.Item(1).Type
@@ -230,11 +230,11 @@ On Error Resume Next
 	
 	newCheck2 = newCheck2+1
 		
-	counter= counter + 1	
+	counter= counter + 10	
 	
 	'pathMap1 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem).ComponentDefinitions.Item(1).Document.DisplayName
 
-	'MsgBox(counter & "- Zlozenie IV poz."& " Ilosc " & newItem2 & " Z : "& newCount2)
+	MsgBox(counter & "- Zlozenie IV poz."& " Ilosc " & newItem2 & " Z : "& newCount2)
 					
 	newFullName2=ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem2).ComponentDefinitions.Item(1).Document.FullDocumentName
 	newAssemblyType2 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem2).ComponentDefinitions.Item(1).Type
@@ -292,11 +292,11 @@ For newItem3 As Integer = 1 To newCount3
 	
 	newCheck3 = newCheck3 + 1
 	
-	counter= counter + 1					
+	counter= counter + 10					
 							
 	'pathMap2 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem).ComponentDefinitions.Item(1).Document.DisplayName
 
-	'MsgBox(counter & "- Zlozenie V poz."& " Ilosc " & newItem3 & " Z : "& newCount3)
+	MsgBox(counter & "- Zlozenie V poz."& " Ilosc " & newItem3 & " Z : "& newCount3)
 	
 	newFullName3=ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem3).ComponentDefinitions.Item(1).Document.FullDocumentName
 	newAssemblyType3 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem3).ComponentDefinitions.Item(1).Type
@@ -383,7 +383,7 @@ ThisApplication.Documents.Open(sDrawingName, True)
 Dim drwoDoc As Document
 drwoDoc = ThisApplication.ActiveDocument
 
-MakePDFFromDoc(drwoDoc, sFileName, pdfCounter)
+'MakePDFFromDoc(drwoDoc, sFileName, pdfCounter)
 
 ThisApplication.ActiveDocument.Close
 
