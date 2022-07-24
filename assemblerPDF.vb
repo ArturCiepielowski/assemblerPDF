@@ -19,7 +19,7 @@ Dim count As Integer = openDoc.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.
 
 Dim counter As Integer = 1
 
-MsgBox(counter & "- Glowne zlozenie")
+'MsgBox(counter & "- Glowne zlozenie")
 
 creatingPDF(counter, mainPath)
 
@@ -44,8 +44,8 @@ For item As Integer = 1 To count
 	check=check+1
 	pathMap = openDoc.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(item).ComponentDefinitions.Item(1).Document.DisplayName
 
-	MsgBox(counter &  "- Zlozenie I poz."& " Ilosc " & item & " Z : "& count)
-	MsgBox(pathMap)
+	'MsgBox(counter &  "- Zlozenie I poz."& " Ilosc " & item & " Z : "& count)
+	'MsgBox(pathMap)
 		
 	fullName=openDoc.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(item).ComponentDefinitions.Item(1).Document.FullDocumentName
 	assemblyType = openDoc.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(item).ComponentDefinitions.Item(1).Type
@@ -56,6 +56,7 @@ For item As Integer = 1 To count
 			
 		'ThisApplication.ActiveDocument.Close(True)
 		braker=1
+		counter = counter - 10
 		'MsgBox("Wyjscie: to nie jest złożenie")
 		Exit For
 		
@@ -106,7 +107,7 @@ For newItem As Integer = 1 To newCount
 			
 	'pathMap0 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem).ComponentDefinitions.Item(1).Document.DisplayName
 
-	MsgBox(counter & "- Zlozenie II poz."& " Ilosc " & newItem & " Z : "& newCount )
+	'MsgBox(counter & "- Zlozenie II poz."& " Ilosc " & newItem & " Z : "& newCount )
 			
 	newFullName=ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem).ComponentDefinitions.Item(1).Document.FullDocumentName
 	newAssemblyType = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem).ComponentDefinitions.Item(1).Type
@@ -128,6 +129,7 @@ For newItem As Integer = 1 To newCount
 	Else if newAssemblyType <>	kAssemblyComponentDefinitionObject Then 
 		
 		NewBreaker = 1
+		counter = counter - 10
 		ThisApplication.ActiveDocument.Close(True)
 		
 		'MsgBox("Wyjscie: to nie jest złożenie")
@@ -172,7 +174,7 @@ On Error Resume Next
 	
 	'pathMap1 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem).ComponentDefinitions.Item(1).Document.DisplayName
 
-	MsgBox(counter & "- Zlozenie III poz."& " Ilosc " & newItem1 & " Z : "& newCount1)
+	'MsgBox(counter & "- Zlozenie III poz."& " Ilosc " & newItem1 & " Z : "& newCount1)
 					
 	newFullName1=ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem1).ComponentDefinitions.Item(1).Document.FullDocumentName
 	newAssemblyType1 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem1).ComponentDefinitions.Item(1).Type
@@ -193,6 +195,7 @@ On Error Resume Next
 	Else if newAssemblyType1 <>	kAssemblyComponentDefinitionObject Then 
 		
 		NewBreaker1 = 1
+		counter = counter -10
 		ThisApplication.ActiveDocument.Close(True)
 		'MsgBox("Wyjscie: to nie jest złożenie")
 		Exit For
@@ -234,7 +237,7 @@ On Error Resume Next
 	
 	'pathMap1 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem).ComponentDefinitions.Item(1).Document.DisplayName
 
-	MsgBox(counter & "- Zlozenie IV poz."& " Ilosc " & newItem2 & " Z : "& newCount2)
+	'MsgBox(counter & "- Zlozenie IV poz."& " Ilosc " & newItem2 & " Z : "& newCount2)
 					
 	newFullName2=ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem2).ComponentDefinitions.Item(1).Document.FullDocumentName
 	newAssemblyType2 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem2).ComponentDefinitions.Item(1).Type
@@ -256,6 +259,7 @@ On Error Resume Next
 		
 	Else if newAssemblyType2 <>	kAssemblyComponentDefinitionObject Then 
 		NewBreaker2=1
+		counter = counter -10
 		ThisApplication.ActiveDocument.Close(True)
 		'MsgBox("Wyjscie: to nie jest złożenie")
 		Exit For
@@ -296,7 +300,7 @@ For newItem3 As Integer = 1 To newCount3
 							
 	'pathMap2 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem).ComponentDefinitions.Item(1).Document.DisplayName
 
-	MsgBox(counter & "- Zlozenie V poz."& " Ilosc " & newItem3 & " Z : "& newCount3)
+	'MsgBox(counter & "- Zlozenie V poz."& " Ilosc " & newItem3 & " Z : "& newCount3)
 	
 	newFullName3=ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem3).ComponentDefinitions.Item(1).Document.FullDocumentName
 	newAssemblyType3 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem3).ComponentDefinitions.Item(1).Type
@@ -312,6 +316,7 @@ For newItem3 As Integer = 1 To newCount3
 	Else if newAssemblyType3 <>	kAssemblyComponentDefinitionObject Then 
 		
 		NewBreaker3=1
+		counter = counter -10
 		ThisApplication.ActiveDocument.Close(True)
 		'MsgBox("Wyjscie: to nie jest złożenie")
 		Exit For
@@ -383,13 +388,16 @@ ThisApplication.Documents.Open(sDrawingName, True)
 Dim drwoDoc As Document
 drwoDoc = ThisApplication.ActiveDocument
 
-'MakePDFFromDoc(drwoDoc, sFileName, pdfCounter)
+MakePDFFromDoc(drwoDoc, sFileName, pdfCounter, mainPath)
 
 ThisApplication.ActiveDocument.Close
 
 End Function
 
-Function MakePDFFromDoc(docDrw, sFileName, counter)
+Function MakePDFFromDoc(docDrw, sFileName, counter, mainPath)
+ 
+ 
+	
  
 
 	Dim docJustName As String = docDrw.DisplayName
@@ -415,10 +423,22 @@ Function MakePDFFromDoc(docDrw, sFileName, counter)
   oOptions.Value("Sheet_Range") = Inventor.PrintRangeEnum.kPrintAllSheets
  
 
+
+	if  sFileName = mainPath Then
+
   oDataMedium.FileName =  sFileName & "_RYSUNKI\WYKONAWCZE\" & newPDFname  & ".pdf"
+
 
   oPDFAddIn.SaveCopyAs(docDrw, oContext, oOptions, oDataMedium)
   
+  Else
+  
+  oDataMedium.FileName =  mainPath & "_RYSUNKI\WYKONAWCZE\" & newPDFname  & ".pdf"
+
+
+	oPDFAddIn.SaveCopyAs(docDrw, oContext, oOptions, oDataMedium)
+  
+  End if
   
 End Function
 
