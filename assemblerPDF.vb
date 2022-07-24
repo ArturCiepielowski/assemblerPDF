@@ -3,6 +3,16 @@ Imports System.Text
 
 Sub Main()
 
+
+Result = MessageBox.Show("Aby Macro poprawnie zadziałało:" & vbNewLine & vbNewLine &
+"- rysunki muszą się znajodwać w lokalizacji o końcówce _RYSUNKI\WYKONAWCZE\" & vbNewLine &
+"- rysunki muszą mieć takie same nazwy jak złożenia" & vbNewLine &
+"- macro trzeba odpalić z poziomu głównego złożenia" & vbNewLine &
+"- macro generuje PDFy zgodnie z kolejnościa jaka jest w BOMie Structural","assemblerPDF",MessageBoxButtons.OKCancel,MessageBoxIcon.Information)
+
+
+If Result =1
+
 Dim openDoc As AssemblyDocument
 openDoc = ThisDoc.Document
 Dim oDoc As Document = ThisApplication.ActiveDocument
@@ -25,6 +35,8 @@ creatingPDF(counter, mainPath)
 
 firstLoop(openDoc, oDoc, count, counter, mainPath)
 
+Else
+End If
 End Sub
 
 
@@ -49,10 +61,11 @@ For item As Integer = 1 To count
 		
 	fullName=openDoc.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(item).ComponentDefinitions.Item(1).Document.FullDocumentName
 	assemblyType = openDoc.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(item).ComponentDefinitions.Item(1).Type
+	bomStructure=openDoc.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(item).BOMStructure
 	Dim oPart As AssemblyDocument
 	
 		
-	if assemblyType <>	kAssemblyComponentDefinitionObject Then 
+	if assemblyType <>	kAssemblyComponentDefinitionObject Or bomStructure <> kNormalBOMStructure  Then 
 			
 		'ThisApplication.ActiveDocument.Close(True)
 		braker=1
@@ -311,7 +324,13 @@ For newItem3 As Integer = 1 To newCount3
 					
 	if newAssemblyType3 = kAssemblyComponentDefinitionObject
 		NewoPart3 = ThisApplication.Documents.Open(newFullName3, True)
+			
+		ThisApplication.ActiveDocument.ComponentDefinition.BOM.StructuredViewEnabled = True
+		ThisApplication.ActiveDocument.ComponentDefinition.BOM.PartsOnlyViewEnabled = True
+		newCount4 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Count
+		
 		creatingPDF(counter, mainPath)
+		counter = sixthLoop(newCount4, counter, mainPath)
 						
 	Else if newAssemblyType3 <>	kAssemblyComponentDefinitionObject Then 
 		
@@ -337,6 +356,62 @@ return counter
 End Function
 
 
+
+
+'-------------------------------------------------------------------------- szósta petla -----------------------------------------------------------------
+
+Function sixthLoop(newCount4, counter, mainPath)
+
+Dim newCheck4 as Integer = 0
+Dim NewBreaker4 As Integer = 0
+
+For newItem4 As Integer = 1 To newCount4 
+							
+	On Error Resume Next
+	
+	
+	
+	newCheck4 = newCheck4 + 1
+	
+	counter= counter + 10					
+							
+	'pathMap2 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem).ComponentDefinitions.Item(1).Document.DisplayName
+
+	'MsgBox(counter & "- Zlozenie V poz."& " Ilosc " & newItem3 & " Z : "& newCount3)
+	
+	newFullName4=ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem4).ComponentDefinitions.Item(1).Document.FullDocumentName
+	newAssemblyType4 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem4).ComponentDefinitions.Item(1).Type
+	Dim NewoPart4 As AssemblyDocument
+	Dim closePart4 As PartDocument
+	
+							
+					
+	if newAssemblyType4 = kAssemblyComponentDefinitionObject
+		NewoPart4 = ThisApplication.Documents.Open(newFullName4, True)
+		creatingPDF(counter, mainPath)
+						
+	Else if newAssemblyType4 <>	kAssemblyComponentDefinitionObject Then 
+		
+		NewBreaker4=1
+		counter = counter -10
+		'ThisApplication.ActiveDocument.Close(True)
+		'MsgBox("Wyjscie: to nie jest złożenie")
+		Continue For
+								
+	End if
+Next
+
+'MsgBox(newCheck3 &" : " & newCount3)
+
+'If newCheck3 = newCount3 And NewBreaker3=0
+
+	ThisApplication.ActiveDocument.Close(True)
+	'MsgBox("Koniec elementów")
+
+'End if
+return counter
+
+End Function
 
 
 
