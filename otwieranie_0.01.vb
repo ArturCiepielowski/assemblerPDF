@@ -9,66 +9,73 @@ ThisApplication.ActiveDocument.ComponentDefinition.BOM.StructuredViewEnabled = T
 ThisApplication.ActiveDocument.ComponentDefinition.BOM.PartsOnlyViewEnabled = True
 Dim count As Integer = openDoc.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Count
 
+Dim counter As Integer = 1
 
+'MsgBox(counter & "- Glowne zlozenie")
 
-Call creatingPDF()
+creatingPDF(counter)
 
-Call firstLoop(openDoc, oDoc, count)
+firstLoop(openDoc, oDoc, count, counter)
 
 End Sub
 
 
+'-------------------------------------------------------------------------- pierwsza petla -----------------------------------------------------------------
 
 
+Function firstLoop (openDoc As AssemblyDocument, oDoc As Document, count As Integer, counter As Integer)
 
-Sub firstLoop (openDoc As AssemblyDocument, oDoc As Document, count As Integer)
+For item As Integer = 1 To count 
+	On Error Resume Next
 
-	For item As Integer = 1 To count ' ----------------- Main FOR
-		On Error Resume Next
+	counter= counter + 1
+	'pathMap = openDoc.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(item).ComponentDefinitions.Item(1).Document.DisplayName
 
-		pathMap = openDoc.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(item).ComponentDefinitions.Item(1).Document.DisplayName
-
-		MsgBox(pathMap)
+	'MsgBox(counter &  "- Zlozenie I poz.")
 		
 		
-		fullName=openDoc.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(item).ComponentDefinitions.Item(1).Document.FullDocumentName
-		assemblyType = openDoc.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(item).ComponentDefinitions.Item(1).Type
-		Dim oPart As AssemblyDocument
+	fullName=openDoc.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(item).ComponentDefinitions.Item(1).Document.FullDocumentName
+	assemblyType = openDoc.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(item).ComponentDefinitions.Item(1).Type
+	Dim oPart As AssemblyDocument
 		
-		if assemblyType <>	kAssemblyComponentDefinitionObject Then 
+	if assemblyType <>	kAssemblyComponentDefinitionObject Then 
 			
-			'ThisApplication.ActiveDocument.Close(True)
-			Exit For
+		'ThisApplication.ActiveDocument.Close(True)
+		Exit For
 		
-		Else if assemblyType = kAssemblyComponentDefinitionObject
-			oPart = ThisApplication.Documents.Open(fullName, True)
+	Else if assemblyType = kAssemblyComponentDefinitionObject
+		oPart = ThisApplication.Documents.Open(fullName, True)
 
-			ThisApplication.ActiveDocument.ComponentDefinition.BOM.StructuredViewEnabled = True
-			ThisApplication.ActiveDocument.ComponentDefinition.BOM.PartsOnlyViewEnabled = True
-			newCount = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Count
+		ThisApplication.ActiveDocument.ComponentDefinition.BOM.StructuredViewEnabled = True
+		ThisApplication.ActiveDocument.ComponentDefinition.BOM.PartsOnlyViewEnabled = True
+		newCount = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Count
 			
-			Call creatingPDF()
-			Call secondLoop(newCount)
+		creatingPDF(counter)
+		counter = secondLoop(newCount, counter)
 			
-		End if
+	End if
 Next
 
-End Sub
+return counter
+
+End Function
 
 
+'-------------------------------------------------------------------------- druga petla -----------------------------------------------------------------
 
 
-
-Sub secondLoop (newCount)
+Function secondLoop (newCount, counter)
 
 For newItem As Integer = 1 To newCount ' ---------------[0] FOR 
 		
 			
 	On Error Resume Next
+	
+	counter= counter + 1
 			
-	pathMap0 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem).ComponentDefinitions.Item(1).Document.DisplayName
+	'pathMap0 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem).ComponentDefinitions.Item(1).Document.DisplayName
 
-	MsgBox(pathMap0)
+	MsgBox(counter & "- Zlozenie II poz.")
 			
 	newFullName=ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem).ComponentDefinitions.Item(1).Document.FullDocumentName
 	newAssemblyType = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem).ComponentDefinitions.Item(1).Type
@@ -83,8 +90,8 @@ For newItem As Integer = 1 To newCount ' ---------------[0] FOR
 		ThisApplication.ActiveDocument.ComponentDefinition.BOM.PartsOnlyViewEnabled = True
 		newCount1 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Count
 		
-		Call creatingPDF()		
-		Call thirdLoop(newCount1)
+		creatingPDF(counter)		
+		counter = thirdLoop(newCount1, counter)
 				
 	Else if newAssemblyType <>	kAssemblyComponentDefinitionObject Then 
 		ThisApplication.ActiveDocument.Close(True)
@@ -92,23 +99,27 @@ For newItem As Integer = 1 To newCount ' ---------------[0] FOR
 				
 			End if
 		Next
-End Sub
+		
+		return counter
+		
+End Function
 
 
 
+'-------------------------------------------------------------------------- trzecia petla -----------------------------------------------------------------
 
 
-
-Sub thirdLoop (newCount1)
+Function thirdLoop (newCount1, counter)
 For newItem1 As Integer = 1 To newCount1 ' ----------------[1] FOR
 				
 						
 On Error Resume Next
 					
-					
-	pathMap1 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem).ComponentDefinitions.Item(1).Document.DisplayName
+	counter= counter + 1	
+	
+	'pathMap1 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem).ComponentDefinitions.Item(1).Document.DisplayName
 
-	MsgBox(pathMap1)
+	MsgBox(counter & "- Zlozenie III poz.")
 					
 	newFullName1=ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem1).ComponentDefinitions.Item(1).Document.FullDocumentName
 	newAssemblyType1 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem1).ComponentDefinitions.Item(1).Type
@@ -122,8 +133,8 @@ On Error Resume Next
 		ThisApplication.ActiveDocument.ComponentDefinition.BOM.PartsOnlyViewEnabled = True
 		newCount2 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Count
 		
-		Call creatingPDF()
-		Call fourthLoop(newCount2)
+		creatingPDF(counter)
+		counter =fourthLoop(newCount2, counter)
 		
 	Else if newAssemblyType1 <>	kAssemblyComponentDefinitionObject Then 
 		ThisApplication.ActiveDocument.Close(True)
@@ -132,21 +143,23 @@ On Error Resume Next
 	End if
 Next
 
-End Sub
+return counter
+
+End Function
 
 
+'-------------------------------------------------------------------------- czwarta petla -----------------------------------------------------------------
 
-
-Sub fourthLoop(newCount2)
+Function fourthLoop(newCount2, counter)
 
 For newItem2 As Integer = 1 To newCount2 ' ----------------[2] FOR
 							
 	On Error Resume Next
-						
+	counter= counter + 1					
 							
-	pathMap2 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem).ComponentDefinitions.Item(1).Document.DisplayName
+	'pathMap2 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem).ComponentDefinitions.Item(1).Document.DisplayName
 
-	MsgBox(pathMap2)
+	MsgBox(counter & "- Zlozenie IV poz.")
 	newFullName2=ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem2).ComponentDefinitions.Item(1).Document.FullDocumentName
 	newAssemblyType2 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem2).ComponentDefinitions.Item(1).Type
 	Dim NewoPart2 As AssemblyDocument
@@ -155,7 +168,7 @@ For newItem2 As Integer = 1 To newCount2 ' ----------------[2] FOR
 					
 	if newAssemblyType2 = kAssemblyComponentDefinitionObject
 		NewoPart2 = ThisApplication.Documents.Open(newFullName2, True)
-		Call creatingPDF()
+		creatingPDF(counter)
 						
 	Else if newAssemblyType2 <>	kAssemblyComponentDefinitionObject Then 
 						
@@ -165,14 +178,17 @@ For newItem2 As Integer = 1 To newCount2 ' ----------------[2] FOR
 	End if
 Next
 
-End Sub
+return counter
+
+End Function
 
 
+'-------------------------------------------------------------------------- funkcja tworząca PDF -----------------------------------------------------------------
 
 
+Function creatingPDF(counter)
 
-Sub creatingPDF()
-
+Dim pdfCounter As Integer= counter 
 Dim oDoc As Document
 oDoc = ThisApplication.ActiveDocument
 
@@ -193,21 +209,22 @@ ThisApplication.Documents.Open(sDrawingName, True)
 Dim drwoDoc As Document
 drwoDoc = ThisApplication.ActiveDocument
 
-Call MakePDFFromDoc(drwoDoc)
+MakePDFFromDoc(drwoDoc, sFileName, pdfCounter)
 
 ThisApplication.ActiveDocument.Close
 
-End Sub
+End Function
 
-Sub MakePDFFromDoc(ByRef docDrw As Document)
+Function MakePDFFromDoc(docDrw, sFileName, counter)
  
 
-	Dim docPath As String = docDrw.FullFileName
-	Dim  docBlank As String = Split(docPath, ".idw")(0)
+	Dim docJustName As String = docDrw.DisplayName
+	Dim docNameCut As String = Split(docJustName, ".idw")(0)
+	Dim newPDFname As String = counter & "." & docNameCut
 	
 	
 	
-  oPDFAddIn = ThisApplication.ApplicationAddIns.ItemById _
+ oPDFAddIn = ThisApplication.ApplicationAddIns.ItemById _
   ("{0AC6FD96-2F4D-42CE-8BE0-8AEA580399E4}")
   oContext = ThisApplication.TransientObjects.CreateTranslationContext
   oContext.Type = IOMechanismEnum.kFileBrowseIOMechanism
@@ -223,12 +240,12 @@ Sub MakePDFFromDoc(ByRef docDrw As Document)
   oOptions.Value("Sheet_Range") = Inventor.PrintRangeEnum.kPrintAllSheets
  
 
-  oDataMedium.FileName = docBlank  & ".pdf"
+  oDataMedium.FileName =  sFileName & "_RYSUNKI\_WYKONAWCZE\" & newPDFname  & ".pdf"
 
- 
-   oPDFAddIn.SaveCopyAs(docDrw, oContext, oOptions, oDataMedium)'
+  oPDFAddIn.SaveCopyAs(docDrw, oContext, oOptions, oDataMedium)
   
   
-End Sub
+End Function
+
 
 
