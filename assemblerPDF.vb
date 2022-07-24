@@ -58,7 +58,7 @@ For item As Integer = 1 To count
 		braker=1
 		counter = counter - 10
 		'MsgBox("Wyjscie: to nie jest złożenie")
-		Exit For
+		Continue For
 		
 	Else if assemblyType = kAssemblyComponentDefinitionObject
 		oPart = ThisApplication.Documents.Open(fullName, True)
@@ -75,12 +75,12 @@ Next
 
 'MsgBox(check &" : " & count)
 
-If check = count And breaker=0
+'If check = count And breaker=0
 
-ThisApplication.ActiveDocument.Close(True)
+'ThisApplication.ActiveDocument.Close(True)
 'MsgBox("Koniec elementów")
 
-End if
+'End if
 
 return counter
 
@@ -130,10 +130,10 @@ For newItem As Integer = 1 To newCount
 		
 		NewBreaker = 1
 		counter = counter - 10
-		ThisApplication.ActiveDocument.Close(True)
+		'ThisApplication.ActiveDocument.Close(True)
 		
 		'MsgBox("Wyjscie: to nie jest złożenie")
-		Exit For
+		Continue For
 				
 			End if
 		Next
@@ -141,12 +141,12 @@ For newItem As Integer = 1 To newCount
 		
 		'MsgBox(newCheck &" : " & newCount)
 
-		If newCheck = newCount And NewBreaker=0
+		'If newCheck = newCount And NewBreaker=0
 
 			ThisApplication.ActiveDocument.Close(True)
 			'MsgBox("Koniec elementów")
 
-		End if
+		'End if
 		
 		
 		return counter
@@ -196,21 +196,21 @@ On Error Resume Next
 		
 		NewBreaker1 = 1
 		counter = counter -10
-		ThisApplication.ActiveDocument.Close(True)
+		'ThisApplication.ActiveDocument.Close(True)
 		'MsgBox("Wyjscie: to nie jest złożenie")
-		Exit For
+		Continue For
 						
 	End if
 Next
 
 'MsgBox(newCheck1 &" : " & newCount1)
 
-		If newCheck1 = newCount1 And NewBreaker1 = 0
+'If newCheck1 = newCount1 And NewBreaker1 = 0
 
 	ThisApplication.ActiveDocument.Close(True)
 	'MsgBox("Koniec elementów")
 
-End if
+'End if
 		
 return counter
 
@@ -260,21 +260,21 @@ On Error Resume Next
 	Else if newAssemblyType2 <>	kAssemblyComponentDefinitionObject Then 
 		NewBreaker2=1
 		counter = counter -10
-		ThisApplication.ActiveDocument.Close(True)
+		'ThisApplication.ActiveDocument.Close(True)
 		'MsgBox("Wyjscie: to nie jest złożenie")
-		Exit For
+		Continue For
 						
 	End if
 Next
 
 'MsgBox(newCheck2 &" : " & newCount2)
 
-If newCheck2 = newCount2 And NewBreaker2 =0
+'If newCheck2 = newCount2 And NewBreaker2 =0
 
 	ThisApplication.ActiveDocument.Close(True)
 	'MsgBox("Koniec elementów")
 
-End if
+'End if
 
 return counter
 
@@ -317,21 +317,21 @@ For newItem3 As Integer = 1 To newCount3
 		
 		NewBreaker3=1
 		counter = counter -10
-		ThisApplication.ActiveDocument.Close(True)
+		'ThisApplication.ActiveDocument.Close(True)
 		'MsgBox("Wyjscie: to nie jest złożenie")
-		Exit For
+		Continue For
 								
 	End if
 Next
 
 'MsgBox(newCheck3 &" : " & newCount3)
 
-If newCheck3 = newCount3 And NewBreaker3=0
+'If newCheck3 = newCount3 And NewBreaker3=0
 
 	ThisApplication.ActiveDocument.Close(True)
 	'MsgBox("Koniec elementów")
 
-End if
+'End if
 return counter
 
 End Function
