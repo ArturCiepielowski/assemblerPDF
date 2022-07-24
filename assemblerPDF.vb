@@ -138,7 +138,7 @@ For newItem As Integer = 1 To newCount
 		newCount1 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Count
 		
 		creatingPDF(counter, mainPath)		
-		counter = thirdLoop(newCount1, counter, mainPath)
+		counter = secondLoop(newCount1, counter, mainPath)
 				
 	Else if newAssemblyType <>	kAssemblyComponentDefinitionObject Or newAssemblyType <> kNormalBOMStructure Then 
 		
@@ -168,255 +168,6 @@ For newItem As Integer = 1 To newCount
 End Function
 
 
-
-'-------------------------------------------------------------------------- trzecia petla -----------------------------------------------------------------
-
-
-Function thirdLoop (newCount1, counter, mainPath)
-
-Dim newCheck1 as Integer = 0
-Dim NewBreaker1 As Integer = 0
-
-For newItem1 As Integer = 1 To newCount1 
-				
-						
-On Error Resume Next
-
-	newCheck1 = newCheck1+1
-	
-	counter= counter + 10	
-	
-	'pathMap1 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem).ComponentDefinitions.Item(1).Document.DisplayName
-
-	'MsgBox(counter & "- Zlozenie III poz."& " Ilosc " & newItem1 & " Z : "& newCount1)
-					
-	newFullName1=ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem1).ComponentDefinitions.Item(1).Document.FullDocumentName
-	newBomStructure1= ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem1).BOMStructure
-	newAssemblyType1 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem1).ComponentDefinitions.Item(1).Type
-	Dim NewoPart1 As AssemblyDocument
-	Dim closePart1 As PartDocument
-	'MsgBox(newAssemblyType1)
-					
-	if newAssemblyType1 = kAssemblyComponentDefinitionObject
-		NewoPart1 = ThisApplication.Documents.Open(newFullName1, True)
-			
-		ThisApplication.ActiveDocument.ComponentDefinition.BOM.StructuredViewEnabled = True
-		ThisApplication.ActiveDocument.ComponentDefinition.BOM.PartsOnlyViewEnabled = True
-		newCount2 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Count
-		
-		creatingPDF(counter, mainPath)
-		counter =fourthLoop(newCount2, counter, mainPath)
-		
-	Else if newAssemblyType1 <>	kAssemblyComponentDefinitionObject Or newAssemblyType1 <> kNormalBOMStructure Then 
-		
-		NewBreaker1 = 1
-		counter = counter -10
-		'ThisApplication.ActiveDocument.Close(True)
-		'MsgBox("Wyjscie: to nie jest złożenie")
-		Continue For
-						
-	End if
-Next
-
-'MsgBox(newCheck1 &" : " & newCount1)
-
-'If newCheck1 = newCount1 And NewBreaker1 = 0
-
-	ThisApplication.ActiveDocument.Close(True)
-	'MsgBox("Koniec elementów")
-
-'End if
-		
-return counter
-
-End Function
-
-
-'-------------------------------------------------------------------------- czwarta petla -----------------------------------------------------------------
-
-Function fourthLoop (newCount2, counter, mainPath)
-
-Dim newCheck2 as Integer = 0
-Dim NewBreaker2 As Integer=0
-
-For newItem2 As Integer = 1 To newCount2 
-				
-						
-On Error Resume Next
-	
-	
-	
-	newCheck2 = newCheck2+1
-		
-	counter= counter + 10	
-	
-	'pathMap1 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem).ComponentDefinitions.Item(1).Document.DisplayName
-
-	'MsgBox(counter & "- Zlozenie IV poz."& " Ilosc " & newItem2 & " Z : "& newCount2)
-					
-	newFullName2=ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem2).ComponentDefinitions.Item(1).Document.FullDocumentName
-	newBomStructure2= ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem).BOMStructure
-	newAssemblyType2 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem2).ComponentDefinitions.Item(1).Type
-	
-	
-	Dim NewoPart2 As AssemblyDocument
-	Dim closePart2 As PartDocument
-	
-	'MsgBox(newAssemblyType2)				
-	if newAssemblyType2 = kAssemblyComponentDefinitionObject
-		NewoPart2 = ThisApplication.Documents.Open(newFullName2, True)
-			
-		ThisApplication.ActiveDocument.ComponentDefinition.BOM.StructuredViewEnabled = True
-		ThisApplication.ActiveDocument.ComponentDefinition.BOM.PartsOnlyViewEnabled = True
-		newCount3 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Count
-		
-		creatingPDF(counter, mainPath)
-		counter = fifthLoop(newCount3, counter, mainPath)
-		
-	Else if newAssemblyType2 <>	kAssemblyComponentDefinitionObject Or newAssemblyType2 <> kNormalBOMStructure  Then 
-		NewBreaker2=1
-		counter = counter -10
-		'ThisApplication.ActiveDocument.Close(True)
-		'MsgBox("Wyjscie: to nie jest złożenie")
-		Continue For
-						
-	End if
-Next
-
-'MsgBox(newCheck2 &" : " & newCount2)
-
-'If newCheck2 = newCount2 And NewBreaker2 =0
-
-	ThisApplication.ActiveDocument.Close(True)
-	'MsgBox("Koniec elementów")
-
-'End if
-
-return counter
-
-End Function
-
-
-'-------------------------------------------------------------------------- piąta petla -----------------------------------------------------------------
-
-Function fifthLoop(newCount3, counter, mainPath)
-
-Dim newCheck3 as Integer = 0
-Dim NewBreaker3 As Integer = 0
-
-For newItem3 As Integer = 1 To newCount3 
-							
-	On Error Resume Next
-	
-	
-	
-	newCheck3 = newCheck3 + 1
-	
-	counter= counter + 10					
-							
-	'pathMap2 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem).ComponentDefinitions.Item(1).Document.DisplayName
-
-	'MsgBox(counter & "- Zlozenie V poz."& " Ilosc " & newItem3 & " Z : "& newCount3)
-	
-	newFullName3=ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem3).ComponentDefinitions.Item(1).Document.FullDocumentName
-	newBomStructure3= ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem3).BOMStructure
-	newAssemblyType3 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem3).ComponentDefinitions.Item(1).Type
-	Dim NewoPart3 As AssemblyDocument
-	Dim closePart3 As PartDocument
-	
-							
-					
-	if newAssemblyType3 = kAssemblyComponentDefinitionObject
-		NewoPart3 = ThisApplication.Documents.Open(newFullName3, True)
-			
-		ThisApplication.ActiveDocument.ComponentDefinition.BOM.StructuredViewEnabled = True
-		ThisApplication.ActiveDocument.ComponentDefinition.BOM.PartsOnlyViewEnabled = True
-		newCount4 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Count
-		
-		creatingPDF(counter, mainPath)
-		counter = sixthLoop(newCount4, counter, mainPath)
-						
-	Else if newAssemblyType3 <>	kAssemblyComponentDefinitionObject Or newAssemblyType3 <> kNormalBOMStructure Then 
-		
-		NewBreaker3=1
-		counter = counter -10
-		'ThisApplication.ActiveDocument.Close(True)
-		'MsgBox("Wyjscie: to nie jest złożenie")
-		Continue For
-								
-	End if
-Next
-
-'MsgBox(newCheck3 &" : " & newCount3)
-
-'If newCheck3 = newCount3 And NewBreaker3=0
-
-	ThisApplication.ActiveDocument.Close(True)
-	'MsgBox("Koniec elementów")
-
-'End if
-return counter
-
-End Function
-
-
-
-
-'-------------------------------------------------------------------------- szósta petla -----------------------------------------------------------------
-
-Function sixthLoop(newCount4, counter, mainPath)
-
-Dim newCheck4 as Integer = 0
-Dim NewBreaker4 As Integer = 0
-
-For newItem4 As Integer = 1 To newCount4 
-							
-	On Error Resume Next
-	
-	
-	
-	newCheck4 = newCheck4 + 1
-	
-	counter= counter + 10					
-							
-	'pathMap2 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem).ComponentDefinitions.Item(1).Document.DisplayName
-
-	'MsgBox(counter & "- Zlozenie V poz."& " Ilosc " & newItem3 & " Z : "& newCount3)
-	
-	newFullName4=ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem4).ComponentDefinitions.Item(1).Document.FullDocumentName
-	newBomStructure4= ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem4).BOMStructure
-	newAssemblyType4 = ThisApplication.ActiveDocument.ComponentDefinition.BOM.BOMViews.Item(2).BOMRows.Item(newItem4).ComponentDefinitions.Item(1).Type
-	Dim NewoPart4 As AssemblyDocument
-	Dim closePart4 As PartDocument
-	
-							
-					
-	if newAssemblyType4 = kAssemblyComponentDefinitionObject
-		NewoPart4 = ThisApplication.Documents.Open(newFullName4, True)
-		creatingPDF(counter, mainPath)
-						
-	Else if newAssemblyType4 <>	kAssemblyComponentDefinitionObject Or newAssemblyType4 <> kNormalBOMStructure Then 
-		
-		NewBreaker4=1
-		counter = counter -10
-		'ThisApplication.ActiveDocument.Close(True)
-		'MsgBox("Wyjscie: to nie jest złożenie")
-		Continue For
-								
-	End if
-Next
-
-'MsgBox(newCheck3 &" : " & newCount3)
-
-'If newCheck3 = newCount3 And NewBreaker3=0
-
-	ThisApplication.ActiveDocument.Close(True)
-	'MsgBox("Koniec elementów")
-
-'End if
-return counter
-
-End Function
 
 
 
@@ -468,7 +219,7 @@ ThisApplication.Documents.Open(sDrawingName, True)
 Dim drwoDoc As Document
 drwoDoc = ThisApplication.ActiveDocument
 
-'MakePDFFromDoc(drwoDoc, sFileName, pdfCounter, mainPath)
+MakePDFFromDoc(drwoDoc, sFileName, pdfCounter, mainPath)
 
 ThisApplication.ActiveDocument.Close
 
@@ -527,7 +278,7 @@ Function errorLog (sDrawingName, mainPath, pdfCounter)
 Dim myDate As String = Now().ToString("yyyy-MM-dd HH.m.ss")
 myDate = myDate.Replace(":","")  
 
-Dim path As String = mainPath & "_RYSUNKI\WYKONAWCZE\" &"drwLog"& myDate & ".txt"
+Dim path As String = mainPath & "_RYSUNKI\WYKONAWCZE\" &"drwLog.txt"
 
 Dim file As System.IO.StreamWriter
 file = My.Computer.FileSystem.OpenTextFileWriter(path, True)
